@@ -9,23 +9,44 @@
 <title>Erick's Awesome Film Results</title>
 </head>
 <body>
-	<h3>Here are your results:</h3>
-
+	
+	
+	
 	<c:forEach var="film" items="${films}">
-		<br /> Film ID: ${film.id}
-	<br /> Film Title: ${film.title}
-	<br /> Film Description: ${film.description}
-	<%-- TODO fill in other film attributes --%>
+			<ul>
+			<br /> 
+			<li>Film ID: ${film.id}</li>
+			<li>Film Title: ${film.title}</li>
+			<li>Film Description: ${film.description}</li>
+			<li>Film Rental Duration: ${film.rentalDuration}</li>
+			<li>Film Rental Rate: ${film.rentalRate}</li>
+			<li>Film Length: ${film.length}</li>
+			<li>Film Replacement Cost: ${film.replacementCost}</li>
+			<li>Film Rating: ${film.rating}</li>
+			<li>Film Special Features: ${film.specialFeatures}</li>
+			<li>Film Release Year: ${film.releaseYear}</li>
+			<li>Film Language: ${film.languagePlainText}</li>
 
-		<%-- TODO logic to fill in Actor list (foreach) --%>
-		<%-- TODO logic to fill in Categories list (foreach) --%>
+			<li>Film Categories: <c:forEach var="cat" items="${film.categories}">
+			${cat.name} &nbsp &nbsp &nbsp
+			</c:forEach>
 
-		<%-- TODO option to edit film  --%>
+			<%-- TODO: logic for commas after all actors but last --%>
+			<li>Film Actors: <c:forEach var="actor" items="${film.actorsList}">
+			${actor.firstName} ${actor.lastName} &nbsp &nbsp &nbsp 
+			</c:forEach>	
+		</ul>
+
+
 		<form action="editFilm.do">
 			<button>Edit This Film</button>
 			<input type="hidden" name="film" value="${film}">
 		</form>
-		<%-- TODO option to delete film  --%>
+		
+		<form action="deleteFilm.do">
+			<button>Delete This Film</button>
+			<input type="hidden" name="film" value="${film}">
+		</form>
 
 		<br />
 	</c:forEach>

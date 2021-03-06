@@ -42,6 +42,17 @@
 			</c:forEach>
 	
 		</ul>
+		
+		<form action="editFilm.do">
+			<button>Edit This Film</button>
+			<input type="hidden" name="film" value="${film}">
+		</form>
+		
+		<form action="deleteFilm.do">
+			<button>Delete This Film</button>
+			<input type="hidden" name="film" value="${film}">
+		</form>
+		
 	
 		</c:when>
 		<c:otherwise>

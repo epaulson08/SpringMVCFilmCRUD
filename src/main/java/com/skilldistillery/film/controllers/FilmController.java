@@ -14,38 +14,48 @@ public class FilmController {
 
 	@Autowired
 	private FilmDAO filmDAO;
-	public FilmDAO getFilmDAO() { 	
+
+	public FilmDAO getFilmDAO() {
 		return filmDAO;
 	}
+
 	public void setStateDao(FilmDAO filmDAO) {
 		this.filmDAO = filmDAO;
 	}
 
-	
-	@RequestMapping(path={"/", "home.do"})
+	@RequestMapping(path = { "/", "home.do" })
 	public String home() {
 		return "index";
 	}
-	@RequestMapping(path="findById.do", method = RequestMethod.GET)
+
+	@RequestMapping(path = "findById.do", method = RequestMethod.GET)
 	public ModelAndView findById(Integer filmId) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("singleFilm");
-		mv.addObject("film", filmDAO.findFilmById(filmId));		
+		mv.addObject("film", filmDAO.findFilmById(filmId));
 		return mv;
 	}
 
-	@RequestMapping(path="findByKeyword.do")
+	@RequestMapping(path = "findByKeyword.do")
 	public ModelAndView findByKeyword(String filmKeyword) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("films");
-		mv.addObject("films", filmDAO.findFilmsByKeyword(filmKeyword));		
+		mv.addObject("films", filmDAO.findFilmsByKeyword(filmKeyword));
 		return mv;
 	}
 
-	@RequestMapping(path="editFilm.do")
+	@RequestMapping(path = "editFilm.do")
 	public ModelAndView editFilm(Film film) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("editFilm");
+//		define model to update film		
+		return mv;
+	}
+
+	@RequestMapping(path = "deleteFilm.do")
+	public ModelAndView deleteFilm(Film film) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("deleteFilm");
 //		define model to update film		
 		return mv;
 	}
