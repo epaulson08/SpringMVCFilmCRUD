@@ -23,4 +23,9 @@ public class FilmController {
 	public String home() {
 		return "index";
 	}
+	
+	@RequestMapping(path="findById.do")
+	public String findById() {
+		return "findById";
+	}
 }

@@ -16,9 +16,10 @@
 	<h3>You can: </h3>
 	
 	<%-- TODO: ADD HREFS --%>
-	<a href="WEB-INF/views/searchById.jsp">Search for film by ID</a>
-	<a href="">Search for film by keyword</a>
-	<a href="">Add a film to the database</a>
+	<a href="searchById.html">Search for film by ID</a>
+	<a href="WEB-INF/views/searchByKeyword.jsp">Search for film by keyword</a>
+	<a href="WEB-INF/views/addFilm.jsp">Add a film to the database</a>
+	<a href="WEB-INF/views/deleteFilm.jsp">Delete a film from the database</a>
 	<%--                  --%>
 
 </body>
