@@ -17,9 +17,9 @@
 	
 	<%-- TODO: ADD HREFS --%>
 	<a href="searchById.html">Search for film by ID</a>
-	<a href="WEB-INF/views/searchByKeyword.jsp">Search for film by keyword</a>
-	<a href="WEB-INF/views/addFilm.jsp">Add a film to the database</a>
-	<a href="WEB-INF/views/deleteFilm.jsp">Delete a film from the database</a>
+	<a href="searchByKeyword.html">Search for film by keyword</a>
+	<a href="addFilm.html">Add a film to the database</a>
+	<a href="deleteFilm.html">Delete a film from the database</a>
 	<%--                  --%>
 
 </body>
