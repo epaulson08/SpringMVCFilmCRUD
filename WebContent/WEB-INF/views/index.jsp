@@ -8,6 +8,6 @@
 <title>MVC Film Site</title>
 </head>
 <body>
-<h1>Welcome To Erick's Film Site</h1>
+<h1 style="color:pink;background-color:blue">Welcome To Erick's Film Site</h1>
 </body>
 </html>
