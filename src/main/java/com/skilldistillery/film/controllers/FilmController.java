@@ -25,7 +25,6 @@ public class FilmController {
 	public String home() {
 		return "index";
 	}
-	
 	@RequestMapping(path="findById.do", method = RequestMethod.GET)
 	public ModelAndView findById(Integer filmId) {
 		ModelAndView mv = new ModelAndView();
@@ -33,14 +32,9 @@ public class FilmController {
 		mv.addObject("film", filmDAO.findFilmById(filmId));		
 		return mv;
 	}
-		
-	
 }
 
 ///// ERIC LAND BELOW; ERIC NOT TO EDIT ABOVE LINE 37
-
-
-
 
 
 
