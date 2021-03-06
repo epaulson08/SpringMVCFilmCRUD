@@ -32,41 +32,12 @@ public class FilmController {
 		mv.addObject("film", filmDAO.findFilmById(filmId));		
 		return mv;
 	}
-}
-
-///// ERIC LAND BELOW; ERIC NOT TO EDIT ABOVE LINE 37
 
 	@RequestMapping(path="findByKeyword.do")
 	public ModelAndView findByKeyword(String keyword) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("result");
-		mv.addObject("film", filmDAO.findFilmByKeyword(keyword));		
+		mv.addObject("film", filmDAO.findFilmsByKeyword(keyword));		
 		return mv;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-///// ERIK LAND AFTER LINE 75
+}
