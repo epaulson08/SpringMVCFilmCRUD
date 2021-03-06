@@ -55,8 +55,8 @@ public class FilmController {
 	@RequestMapping(path = "addFilm.do")
 	public ModelAndView addFilm(Film film) {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("editFilm");
-//		define model to add film  		
+		mv.setViewName("addFilm");
+		mv.addObject("film", filmDAO.createFilm(film));
 		return mv;
 	}
 		
