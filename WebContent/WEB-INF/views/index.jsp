@@ -16,8 +16,11 @@
 	<h3>You can: </h3>
 	
 	<a href="searchById.html">Search for film by ID</a>
+	<br />
 	<a href="searchByKeyword.html">Search for film by keyword</a>
+	<br />
 	<a href="addFilm.html">Add a film to the database</a>
+	<br />
 	<a href="deleteFilm.html">Delete a film from the database</a>
 
 </body>
