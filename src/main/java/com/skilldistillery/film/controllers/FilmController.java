@@ -21,6 +21,6 @@ public class FilmController {
 	
 	@RequestMapping(path={"/", "home.do"})
 	public String home() {
-		return "WEB-INF/views/index.jsp";
+		return "index";
 	}
 }
