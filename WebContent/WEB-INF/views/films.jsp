@@ -38,7 +38,7 @@
 		</ul>
 
 
-		<form action="editFilm.do">
+		<form action="updateFilm.do">
 			<button>Edit This Film</button>
 			<input type="hidden" name="film" value="${film}">
 		</form>
