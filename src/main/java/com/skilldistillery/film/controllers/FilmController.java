@@ -36,13 +36,13 @@ public class FilmController {
 
 ///// ERIC LAND BELOW; ERIC NOT TO EDIT ABOVE LINE 37
 
-
-
-
-
-
-
-
+	@RequestMapping(path="findByKeyword.do")
+	public ModelAndView findByKeyword(String keyword) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("result");
+		mv.addObject("film", filmDAO.findFilmByKeyword(keyword));		
+		return mv;
+	}
 
 
 
