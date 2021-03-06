@@ -15,12 +15,10 @@
 	<br>
 	<h3>You can: </h3>
 	
-	<%-- TODO: ADD HREFS --%>
 	<a href="searchById.html">Search for film by ID</a>
 	<a href="searchByKeyword.html">Search for film by keyword</a>
 	<a href="addFilm.html">Add a film to the database</a>
 	<a href="deleteFilm.html">Delete a film from the database</a>
-	<%--                  --%>
 
 </body>
 </html>

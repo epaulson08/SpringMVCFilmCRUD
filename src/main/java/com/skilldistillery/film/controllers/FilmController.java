@@ -26,7 +26,7 @@ public class FilmController {
 	}
 	
 	@RequestMapping(path="findById.do")
-	public ModelAndView findById(Integer filmId) { // put parameters in that will be used by model
+	public ModelAndView findById(Integer filmId) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("result");
 		mv.addObject("film", filmDAO.findFilmById(filmId));		
