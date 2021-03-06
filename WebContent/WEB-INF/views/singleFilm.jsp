@@ -31,7 +31,15 @@
 			<li>Film Special Features: ${film.specialFeatures}</li>
 			<li>Film Release Year: ${film.releaseYear}</li>
 			<li>Film Language: ${film.languagePlainText}</li>
-			<!--<li><br /> Film Categories: ${film.categories}  -->
+
+			<li>Film Categories: <c:forEach var="cat" items="${film.categories}">
+			${cat.name} &nbsp &nbsp &nbsp
+			</c:forEach>
+
+			<%-- TODO: logic for commas after all actors but last --%>
+			<li>Film Actors: <c:forEach var="actor" items="${film.actorsList}">
+			${actor.firstName} ${actor.lastName} &nbsp &nbsp &nbsp 
+			</c:forEach>
 	
 		</ul>
 	

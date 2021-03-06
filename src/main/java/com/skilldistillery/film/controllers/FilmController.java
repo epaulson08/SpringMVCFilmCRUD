@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.skilldistillery.film.dao.FilmDAO;
+import com.skilldistillery.film.entities.Film;
 
 @Controller
 public class FilmController {
@@ -34,10 +35,18 @@ public class FilmController {
 	}
 
 	@RequestMapping(path="findByKeyword.do")
-	public ModelAndView findByKeyword(String keyword) {
+	public ModelAndView findByKeyword(String filmKeyword) {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("result");
-		mv.addObject("film", filmDAO.findFilmsByKeyword(keyword));		
+		mv.setViewName("films");
+		mv.addObject("films", filmDAO.findFilmsByKeyword(filmKeyword));		
+		return mv;
+	}
+
+	@RequestMapping(path="editFilm.do")
+	public ModelAndView editFilm(Film film) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("editFilm");
+//		define model to update film		
 		return mv;
 	}
 }
