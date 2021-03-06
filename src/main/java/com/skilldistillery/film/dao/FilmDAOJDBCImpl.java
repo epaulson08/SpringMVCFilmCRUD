@@ -16,6 +16,13 @@ import com.skilldistillery.film.entities.Film;
 
 @Component
 public class FilmDAOJDBCImpl implements FilmDAO {
+	static {
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}		
 
 	// URL for connection to database
 	private String URL = "jdbc:mysql://localhost:3306/sdvid";
