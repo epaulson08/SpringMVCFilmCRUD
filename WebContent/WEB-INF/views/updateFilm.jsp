@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-EDIT FILM PAGE
+UPDATE FILM PAGE
 
 </body>
 </html>

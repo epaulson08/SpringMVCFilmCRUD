@@ -44,19 +44,30 @@ public class FilmController {
 		return mv;
 	}
 
-	@RequestMapping(path = "editFilm.do")
-	public ModelAndView editFilm(Film film) {
+	@RequestMapping(path = "updateFilm.do")
+	public ModelAndView updateFilm(Film film) {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("editFilm");
+		mv.setViewName("updateFilm");
 //		define model to update film		
 		return mv;
 	}
-
+	
+	@RequestMapping(path = "addFilm.do")
+	public ModelAndView addFilm(Film film) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("editFilm");
+//		define model to add film  		
+		return mv;
+	}
+		
 	@RequestMapping(path = "deleteFilm.do")
 	public ModelAndView deleteFilm(Film film) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("deleteFilm");
-//		define model to update film		
+//		define model to delete film		
 		return mv;
 	}
+	
+	
+	
 }

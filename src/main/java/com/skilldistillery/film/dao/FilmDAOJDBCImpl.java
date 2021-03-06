@@ -448,7 +448,11 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 
 	}
 
-	public Film changeTitle(Film f, String newTitle) {
+	public Film updateFilm(Film f, String newTitle) {
+		// TODO This has been implemented to only change title. Will need to 
+		// update to change all attributes of film object. Method parameters will need
+		// to change too.
+		
 		Film resultFilm = null;
 		Connection conn = null;
 		int filmId = f.getId();
