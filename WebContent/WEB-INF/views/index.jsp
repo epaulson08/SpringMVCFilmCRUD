@@ -12,5 +12,14 @@
 <body>
 	<h1 style="color: pink; background-color: blue">Welcome To Erick's
 		Film Site</h1>
+	<br>
+	<h3>You can: </h3>
+	
+	<%-- TODO: ADD HREFS --%>
+	<a href="views/searchById.jsp">Search for film by ID</a>
+	<a href="">Search for film by keyword</a>
+	<a href="">Add a film to the database</a>
+	<%--                  --%>
+
 </body>
 </html>

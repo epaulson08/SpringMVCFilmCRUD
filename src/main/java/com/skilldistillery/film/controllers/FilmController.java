@@ -11,6 +11,13 @@ public class FilmController {
 
 	@Autowired
 	private FilmDAO filmDAO;
+	public FilmDAO getFilmDAO() { 	
+		return filmDAO;
+	}
+	public void setStateDao(FilmDAO filmDAO) {
+		this.filmDAO = filmDAO;
+	}
+
 	
 	@RequestMapping(path={"/", "home.do"})
 	public String home() {
