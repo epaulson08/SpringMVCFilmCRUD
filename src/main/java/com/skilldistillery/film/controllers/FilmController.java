@@ -3,6 +3,7 @@ package com.skilldistillery.film.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.skilldistillery.film.dao.FilmDAO;
@@ -24,11 +25,10 @@ public class FilmController {
 	public String home() {
 		return "index";
 	}
-	
-	@RequestMapping(path="findById.do")
+	@RequestMapping(path="findById.do", method = RequestMethod.GET)
 	public ModelAndView findById(Integer filmId) {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("result");
+		mv.setViewName("singleFilm");
 		mv.addObject("film", filmDAO.findFilmById(filmId));		
 		return mv;
 	}
@@ -43,9 +43,6 @@ public class FilmController {
 		mv.addObject("film", filmDAO.findFilmByKeyword(keyword));		
 		return mv;
 	}
-
-
-
 
 
 
