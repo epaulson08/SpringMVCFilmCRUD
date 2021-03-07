@@ -368,20 +368,14 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 //				String newRating, String newSpecialFeatures, String newReleaseYear) {
 
 		// TODO update query with other fields
-		String sqlCreateFilm = "INSERT INTO film " 
-				+ "(title, description, rental_duration, "
-				+ "rental_rate, length, replacement_cost, "
-				+ "rating, special_features, release_year, language_id) " 				
-				+ "VALUES "
-				+ "(?, ?, ?, "
-				+ "?, ?, ?, "
-				+ "?, ?, ?, 1)";
-		
+		String sqlCreateFilm = "INSERT INTO film " + "(title, description, rental_duration, "
+				+ "rental_rate, length, replacement_cost, " + "rating, special_features, release_year, language_id) "
+				+ "VALUES " + "(?, ?, ?, " + "?, ?, ?, " + "?, ?, ?, 1)";
+
 		// putting a bunch of fields in the query
 
 		try {
 			conn = DriverManager.getConnection(URL, "student", "student");
-			conn.setAutoCommit(false); // START TRANSACTION
 
 			PreparedStatement stmtCreateFilm = conn.prepareStatement(sqlCreateFilm);
 			stmtCreateFilm.setString(1, f.getTitle());
@@ -393,20 +387,31 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 			stmtCreateFilm.setString(7, f.getRating());
 			stmtCreateFilm.setString(8, f.getSpecialFeatures());
 			stmtCreateFilm.setInt(9, f.getReleaseYear());
-			// binding the variables
+			stmtCreateFilm.executeUpdate(); // created film but we still don't know what id the database assigned
 
-			// Do the update and see how many rows it returns
-			int updateCount = stmtCreateFilm.executeUpdate();
+			String sqlGetFilmId = "SELECT id FROM film WHERE " + "title=? AND description=? AND rental_duration=? AND "
+					+ "rental_rate=? AND length=? AND replacement_cost=? AND " + "rating=? AND special_features=? AND release_year=? AND "
+					+ "language_id=1"; // hardcoded language id
+			PreparedStatement stmtGetID = conn.prepareStatement(sqlGetFilmId);
+			stmtGetID.setString(1, f.getTitle());
+			stmtGetID.setString(2, f.getDescription());
+			stmtGetID.setInt(3, f.getRentalDuration());
+			stmtGetID.setDouble(4, f.getRentalRate());
+			stmtGetID.setInt(5, f.getLength());
+			stmtGetID.setDouble(6, f.getReplacementCost());
+			stmtGetID.setString(7, f.getRating());
+			stmtGetID.setString(8, f.getSpecialFeatures());
+			stmtGetID.setInt(9, f.getReleaseYear());
+			ResultSet rs2 = stmtGetID.executeQuery(); // created film but we still don't know what id the database assigned
 
-			// we should only have added 1 row
-			if (updateCount == 1) {
-				conn.commit(); // COMMIT TRANSACTION
-
+			int filmId = 0;
+			if (rs2.next()) {
+				filmId = rs2.getInt(1);
 			} else {
 				resultFilm = null;
 			}
-
-			// if insert succeeds: return Film
+			f.setId(filmId);
+			resultFilm = f;
 			return resultFilm;
 
 		} catch (SQLException sqle) {
@@ -575,6 +580,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 			}
 		}
 
+		// TODO: make sure SpecialFeatures is a valid input
 		// SpecialFeatures
 		if (newSpecialFeatures != "") {
 			toPass.setSpecialFeatures(newSpecialFeatures);
@@ -596,7 +602,6 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 
 		toPass.setLanguageId(1); // HARDCODING LANGUAGE ID AS 1
 
-		
 		return toPass;
 	}
 
@@ -682,7 +687,8 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 				toPass.setRating("G");
 			}
 		}
-
+		
+//		TODO: CHECK THAT SPECIAL FEATURES IS VALID INPUT
 		// SpecialFeatures
 		if (newSpecialFeatures != "") {
 			toPass.setSpecialFeatures(newSpecialFeatures);
@@ -724,7 +730,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 	public Film createFilm(String newTitle, String newDescription, String newLanguagePlainText,
 			String newRentalDuration, String newRentalRate, String newLength, String newReplacementCost,
 			String newRating, String newSpecialFeatures, String newReleaseYear) {
-		Film sanitizedFilm = cleanUserFilm(newTitle, newDescription, newLanguagePlainText, newRentalDuration,
+		Film sanitizedFilm = cleanUserFilm(newTitle, newDescription, "English", newRentalDuration,
 				newRentalRate, newLength, newReplacementCost, newRating, newSpecialFeatures, newReleaseYear);
 		Film returnFilm = createFilm(sanitizedFilm);
 		return returnFilm;

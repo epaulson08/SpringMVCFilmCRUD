@@ -80,7 +80,7 @@ public class FilmController {
 		// HARDCODED LANGUAGEPLAINTEXT
 		mv.addObject("film", filmDAO.createFilm(title, description, "English", rentalDuration,
 				rentalRate, length, replacementCost, rating, specialFeatures, releaseYear));
-		return mv;
+		return mv; 
 	}
 
 	@RequestMapping(path = "deleteFilm.do", method = RequestMethod.POST)
