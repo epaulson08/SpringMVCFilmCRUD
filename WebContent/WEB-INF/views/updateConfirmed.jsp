@@ -22,7 +22,8 @@
 			<li>Film Rating: ${film.rating}</li>
 			<li>Film Special Features: ${film.specialFeatures}</li>
 			<li>Film Release Year: ${film.releaseYear}</li>
-			<li>Film Language: ${film.languagePlainText}</li>
+			<%-- TODO: make this work --%>
+			<%-- <li>Film Language: ${film.languagePlainText}</li> --%>
 
 		</c:when>
 		<c:otherwise>

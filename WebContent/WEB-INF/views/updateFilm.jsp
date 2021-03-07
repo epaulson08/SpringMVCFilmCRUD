@@ -10,6 +10,10 @@
 	UPDATE FILM PAGE Please type in your updates:
 	<form action="updateConfirmed.do" method="POST">
 		<input type="hidden" name="filmId" value="${film.id}">
+		<%-- TODO: update this languagePlainText--%>
+		<input type="hidden" name="languagePlainText" value="${film.languagePlainText}">
+		
+		
 		<ul>
 			<li>Film Title: ${film.title} &nbsp &nbsp <input type="text"
 				name="title">
@@ -38,9 +42,12 @@
 			<li>Film Release Year: ${film.releaseYear} &nbsp &nbsp <input type="text"
 				name="releaseYear">
 			</li>
+			<%-- TODO: make this work --%>
+			<%-- 
 			<li>Film Language: ${film.languagePlainText} &nbsp &nbsp <input type="text"
 				name="languagePlainText">
 			</li>
+			 --%>
 		</ul>
 		<input type="submit" value="Submit Updates">
 	</form>

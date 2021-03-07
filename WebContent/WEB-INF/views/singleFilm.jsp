@@ -30,7 +30,9 @@
 			<li>Film Rating: ${film.rating}</li>
 			<li>Film Special Features: ${film.specialFeatures}</li>
 			<li>Film Release Year: ${film.releaseYear}</li>
-			<li>Film Language: ${film.languagePlainText}</li>
+			
+			<%-- TODO: make this work  --%>
+			<%-- <li>Film Language: ${film.languagePlainText}</li> --%>
 
 			<li>Film Categories: <c:forEach var="cat" items="${film.categories}">
 			${cat.name} &nbsp &nbsp &nbsp

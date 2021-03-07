@@ -40,7 +40,7 @@
 
 		<form action="updateFilm.do", method="GET">
 			<button>Edit This Film</button>
-			<%-- <input type="hidden" name="film" value="${film}">  --%>
+			<input type="hidden" name="filmId" value="${film.id}">
 		</form>
 		
 		<form action="deleteFilm.do" method="POST">

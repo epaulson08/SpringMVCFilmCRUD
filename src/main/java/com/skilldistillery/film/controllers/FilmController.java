@@ -57,9 +57,9 @@ public class FilmController {
 	@RequestMapping(path = "updateConfirmed.do", method = RequestMethod.POST)
 	public ModelAndView updateFilm(@RequestParam int filmId, @RequestParam String title,
 			@RequestParam String description, @RequestParam String languagePlainText,
-			@RequestParam Integer rentalDuration, @RequestParam double rentalRate, @RequestParam Integer length,
-			@RequestParam double replacementCost, @RequestParam String rating, @RequestParam String specialFeatures,
-			@RequestParam Integer releaseYear) {
+			@RequestParam String rentalDuration, @RequestParam String rentalRate, @RequestParam String length,
+			@RequestParam String replacementCost, @RequestParam String rating, @RequestParam String specialFeatures,
+			@RequestParam String releaseYear) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("updateConfirmed");
 		mv.addObject("film", filmDAO.updateFilm(filmId, title, description, languagePlainText, rentalDuration,

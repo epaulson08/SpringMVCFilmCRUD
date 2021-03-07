@@ -420,7 +420,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		Film returnFilm = deleteFilm(f);
 		return returnFilm;
 	}
-	
+
 	public Film deleteFilm(Film film) {
 		Film returnFilm = film;
 		Connection conn = null;
@@ -450,8 +450,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		}
 
 	}
-	
-	
+
 	// Limited build as proof of concept:
 	public Film updateFilm(int filmId, String title) {
 		Film toPass = findFilmById(filmId);
@@ -459,10 +458,11 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		Film returnFilm = updateFilm(toPass);
 		return returnFilm;
 	}
-	
+
 	// Full build:
-	public Film updateFilm(int filmId, String newTitle, String newDescription, String newLanguagePlainText, Integer newRentalDuration, double newRentalRate, 
-			Integer newLength, double newReplacementCost, String newRating, String newSpecialFeatures, Integer newReleaseYear) {
+	public Film updateFilm(int filmId, String newTitle, String newDescription, String newLanguagePlainText,
+			Integer newRentalDuration, double newRentalRate, Integer newLength, double newReplacementCost,
+			String newRating, String newSpecialFeatures, Integer newReleaseYear) {
 		Film toPass = findFilmById(filmId);
 		toPass.setTitle(newTitle);
 		toPass.setDescription(newDescription);
@@ -474,30 +474,136 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		toPass.setRating(newRating);
 		toPass.setSpecialFeatures(newSpecialFeatures);
 		toPass.setReleaseYear(newReleaseYear);
-		toPass.setLanguageId(1);  // HARDCODING LANGUAGE ID AS 1
-		
+		toPass.setLanguageId(1); // HARDCODING LANGUAGE ID AS 1
+
 		Film returnFilm = updateFilm(toPass);
-		return returnFilm;		
+		return returnFilm;
+	}
+
+	// Full build:
+	public Film updateFilm(int filmId, String newTitle, String newDescription, String newLanguagePlainText,
+			String newRentalDuration, String newRentalRate, String newLength, String newReplacementCost,
+			String newRating, String newSpecialFeatures, String newReleaseYear) {
+
+		Film toPass = findFilmById(filmId);
+
+		// CHECK USER INPUT FOR NULL OR INVALID
+		// Title
+		if (newTitle != "") {
+			toPass.setTitle(newTitle);
+		} else {
+			if (toPass.getTitle() == null) {
+				toPass.setTitle("");
+			}
+		}
+
+		// Description
+		if (newDescription != "") {
+			toPass.setDescription(newDescription);
+		} else {
+			if (toPass.getDescription() == null) {
+				toPass.setDescription("");
+			}
+		}
+
+		// LanguagePlainText
+		if (newLanguagePlainText != "") {
+			toPass.setLanguagePlainText(newLanguagePlainText);
+		} else {
+			if (toPass.getLanguagePlainText() == null) {
+				toPass.setLanguagePlainText("");
+			}
+		}
+
+		// RentalDuration
+		// TODO: deal with user passing in non-numeric info
+		if (newRentalDuration != "") {
+			toPass.setRentalDuration(Integer.parseInt(newRentalDuration));
+		} else {
+			if (toPass.getRentalDuration() == null) {
+				toPass.setRentalDuration(0);
+			}
+		}
+
+		// RentalRate
+		// TODO: deal with user passing in non-numeric info
+		if (newRentalRate != "") {
+			toPass.setRentalRate(Double.parseDouble(newRentalRate));
+		} else {
+			// primitive double cannot be null so do not need this logic
+//			if (toPass.getRentalRate() == null) {
+//				toPass.setRentalDuration(0);
+		}
+
+		// Length
+		// TODO: deal with user passing in non-numeric info
+		if (newLength != "") {
+			toPass.setLength(Integer.parseInt(newLength));
+		} else {
+			if (toPass.getLength() == null) {
+				toPass.setLength(0);
+			}
+		}
+
+		// ReplacementCost
+		// TODO: deal with user passing in non-numeric info
+		if (newReplacementCost != "") {
+			toPass.setReplacementCost(Double.parseDouble(newReplacementCost));
+		} else {
+			// primitive double cannot be null so do not need this logic 
+//					if (toPass.getRentalRate() == null) {
+//						toPass.setRentalDuration(0);
+		}
+
+		// Rating
+		if (newRating != "") {
+			toPass.setRating(newRating);
+		} else {
+			if (toPass.getRating() == null) {
+				toPass.setRating("");
+			}
+		}
+
+		// SpecialFeatures
+		if (newSpecialFeatures != "") {
+			toPass.setSpecialFeatures(newSpecialFeatures);
+		} else {
+			if (toPass.getSpecialFeatures() == null) {
+				toPass.setSpecialFeatures("");
+			}
+		}
+		
+		// ReleaseYear
+		// TODO: deal with user passing in non-numeric info
+		if (newReleaseYear != "") {
+			toPass.setReleaseYear(Integer.parseInt(newReleaseYear));
+		} else {
+			if (toPass.getReleaseYear() == null) {
+				toPass.setReleaseYear(0);
+			}
+		}
+		
+		toPass.setLanguageId(1); // HARDCODING LANGUAGE ID AS 1
+
+		Film returnFilm = updateFilm(toPass);
+		return returnFilm;
 	}
 
 //	public Film(int id, String title, String description, Integer languageId, Integer rentalDuration, double rentalRate,
 //			Integer length, double replacementCost, String rating, String specialFeatures, Integer releaseYear) {
 
-	
 	public Film updateFilm(Film f) {
-		String sqlUpdateFilm = "UPDATE film "
-				+ "SET title=?, " // index 1
+		String sqlUpdateFilm = "UPDATE film " + "SET title=?, " // index 1
 				+ "description=?, " // 2
-				+ "languagePlainText=?, " // 3
-				+ "length=?, " // 4
-				+ "rating=?, " // 5
-				+ "releaseYear=?, " // 6
-				+ "rentalDuration=?, " // 7
-				+ "rentalRate=?, " // 8
-				+ "replacementCost=?, " // 9
-				+ "specialFeatures=?, " // 10
-				+ "languageId=1 " // HARDCODING LANGUAGE ID AS 1
-				+ "WHERE id=?"; // 11
+				+ "length=?, " // 3
+				+ "rating=?, " // 4
+				+ "release_year=?, " // 5
+				+ "rental_duration=?, " // 6
+				+ "rental_rate=?, " // 7
+				+ "replacement_cost=?, " // 8
+				+ "special_features=?, " // 9
+				+ "language_id=1 " // HARDCODING LANGUAGE ID AS 1
+				+ "WHERE id=?"; // 10
 
 		Film resultFilm = null;
 		Connection conn = null;
@@ -510,19 +616,19 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 			PreparedStatement ps = conn.prepareStatement(sqlUpdateFilm);
 			ps.setString(1, f.getTitle());
 			ps.setString(2, f.getDescription());
-			ps.setString(3, f.getLanguagePlainText());
-			ps.setInt(4, f.getLength());
-			ps.setString(5, f.getRating());
-			ps.setInt(6, f.getReleaseYear());
-			ps.setInt(7, f.getRentalDuration());
-			ps.setDouble(8, f.getRentalRate());
-			ps.setDouble(9, f.getReplacementCost());
-			ps.setString(10, f.getSpecialFeatures());
-			ps.setInt(11, filmId); // this is for the WHERE clause, do not mess it up			
+
+			ps.setInt(3, f.getLength());
+			ps.setString(4, f.getRating());
+			ps.setInt(5, f.getReleaseYear());
+			ps.setInt(6, f.getRentalDuration());
+			ps.setDouble(7, f.getRentalRate());
+			ps.setDouble(8, f.getReplacementCost());
+			ps.setString(9, f.getSpecialFeatures());
+			ps.setInt(10, filmId); // this is for the WHERE clause, do not mess it up
 
 			ps.executeUpdate();
 			conn.commit(); // COMMIT TRANSACTION
-			
+
 			resultFilm = f;
 			return resultFilm;
 
