@@ -387,7 +387,6 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 
 				ResultSet rs = stmtGetId.executeQuery();
 
-				// TODO: we know that rs will have a next... or we should...
 				if (rs.next()) {
 					int createdId = rs.getInt(1);
 					resultFilm = f;
@@ -396,8 +395,8 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 					resultFilm = null;
 				}
 
-				// if insert succeeds: return Film
 			}
+			// if insert succeeds: return Film
 			return resultFilm;
 
 		} catch (SQLException sqle) {
@@ -416,6 +415,12 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		}
 	}
 
+	public Film deleteFilm(int filmId) {
+		Film f = findFilmById(filmId);
+		Film returnFilm = deleteFilm(f);
+		return returnFilm;
+	}
+	
 	public Film deleteFilm(Film film) {
 		Film returnFilm = film;
 		Connection conn = null;
@@ -446,16 +451,19 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 
 	}
 	
+	public Film updateFilm(int filmId, String title) {
+		Film toPass = findFilmById(filmId);
+		toPass.setTitle(title);
+		Film returnFilm = updateFilm(toPass);
+		return returnFilm;
+	}
 	
 	public Film updateFilm(Film f) {
-		// TODO: newTitle is being null-ed here because we are going to substantially
-		// change
-		// the implementation
-		String newTitle = null;
 
 		Film resultFilm = null;
 		Connection conn = null;
 		int filmId = f.getId();
+		String newTitle = f.getTitle();
 
 		try {
 			conn = DriverManager.getConnection(URL, "student", "student");

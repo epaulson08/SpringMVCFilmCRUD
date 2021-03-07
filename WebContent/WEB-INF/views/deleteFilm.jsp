@@ -9,13 +9,16 @@
 </head>
 <body>
 	DELETE FILM PAGE
-	<br /> You are about to delete ${title}. Do you wish to proceed?
+	<br /> You have deleted ${film.title}.
 
 	<form action="home.do">
+	<button>Go Home</button>
+	</form>
+<%--
 		<button name="confirm" value="confirmDelete">Yes,
 			DELETE</button>
-		<input type="hidden" name="film" value="${film}">
-		<button type="submit" name="confirm" value="cancelDelete">CANCEL</button>
+	<!--  	<input type="hidden" name="film" value="${film}"> -->
+		<button name="confirm" value="cancelDelete">CANCEL</button>
 	</form>
 
 	<%--

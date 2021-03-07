@@ -23,7 +23,11 @@ public interface FilmDAO {
 	public Film createFilm(Film f);
 
 	public Film deleteFilm(Film f);
+	
+	public Film deleteFilm(int filmId);
 
 	public Film updateFilm(Film f);
+
+	public Film updateFilm(int filmId, String title);
 
 }

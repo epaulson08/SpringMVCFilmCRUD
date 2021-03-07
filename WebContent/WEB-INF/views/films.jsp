@@ -38,15 +38,14 @@
 		</ul>
 
 
-		<form action="updateFilm.do">
+		<form action="updateFilm.do", method="GET">
 			<button>Edit This Film</button>
-			<input type="hidden" name="film" value="${film}">
+			<%-- <input type="hidden" name="film" value="${film}">  --%>
 		</form>
 		
-		<form action="deleteFilm.do">
+		<form action="deleteFilm.do" method="POST">
 			<button>Delete This Film</button>
-			<input type="hidden" name="title" value="${film.title}">
-			<input type="hidden" name="id" value="${film.id}">
+			<input type="hidden" name="filmId" value="${film.id}">
 		</form>
 
 		<br />
