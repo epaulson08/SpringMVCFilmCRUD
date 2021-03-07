@@ -45,7 +45,8 @@
 		
 		<form action="deleteFilm.do">
 			<button>Delete This Film</button>
-			<input type="hidden" name="film" value="${film}">
+			<input type="hidden" name="title" value="${film.title}">
+			<input type="hidden" name="id" value="${film.id}">
 		</form>
 
 		<br />

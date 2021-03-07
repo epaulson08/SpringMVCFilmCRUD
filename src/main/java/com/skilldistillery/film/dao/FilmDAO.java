@@ -22,8 +22,8 @@ public interface FilmDAO {
 
 	public Film createFilm(Film f);
 
-	public boolean deleteFilm(Film f);
+	public Film deleteFilm(Film f);
 
-	public Film updateFilm(Film f, String newTitle);
+	public Film updateFilm(Film f);
 
 }

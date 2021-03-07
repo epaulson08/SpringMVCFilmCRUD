@@ -17,12 +17,12 @@ import com.skilldistillery.film.entities.Film;
 @Component
 public class FilmDAOJDBCImpl implements FilmDAO {
 	static {
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-		}		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 
 	// URL for connection to database
 	private String URL = "jdbc:mysql://localhost:3306/sdvid";
@@ -416,9 +416,8 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		}
 	}
 
-	public boolean deleteFilm(Film film) {
-		boolean missionSuccess = false;
-
+	public Film deleteFilm(Film film) {
+		Film returnFilm = film;
 		Connection conn = null;
 
 		try {
@@ -430,10 +429,8 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 			stmtDeleteFilm.executeUpdate();
 
 			conn.commit(); // COMMIT TRANSACTION
-			missionSuccess = true;
-			return missionSuccess;
+			return returnFilm;
 		} catch (SQLException sqle) {
-			missionSuccess = false;
 			sqle.printStackTrace();
 			if (conn != null) {
 				try {
@@ -443,16 +440,19 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 					System.err.println("Error trying to rollback");
 				}
 			}
-			return missionSuccess;
+			returnFilm = null;
+			return returnFilm;
 		}
 
 	}
+	
+	
+	public Film updateFilm(Film f) {
+		// TODO: newTitle is being null-ed here because we are going to substantially
+		// change
+		// the implementation
+		String newTitle = null;
 
-	public Film updateFilm(Film f, String newTitle) {
-		// TODO This has been implemented to only change title. Will need to 
-		// update to change all attributes of film object. Method parameters will need
-		// to change too.
-		
 		Film resultFilm = null;
 		Connection conn = null;
 		int filmId = f.getId();
@@ -461,6 +461,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 			conn = DriverManager.getConnection(URL, "student", "student");
 			conn.setAutoCommit(false); // START TRANSACTION
 
+			// TODO: need SQLs to change fields other than title
 			PreparedStatement ps = conn.prepareStatement(sqlChangeTitle);
 			ps.setString(1, newTitle);
 			ps.setInt(2, filmId);
