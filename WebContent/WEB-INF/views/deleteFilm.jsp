@@ -8,14 +8,16 @@
 <title>Delete Film</title>
 </head>
 <body>
-	DELETE FILM PAGE You are about to delete ${film.title}. Do you wish to proceed?
+	DELETE FILM PAGE
+	<br /> You are about to delete ${title}. Do you wish to proceed?
 
-	<form action="deleteFilm.do">
-		<button type="submit" name="confirm" value="confirmDelete">Yes, DELETE</button>
+	<form action="home.do">
+		<button name="confirm" value="confirmDelete">Yes,
+			DELETE</button>
 		<input type="hidden" name="film" value="${film}">
 		<button type="submit" name="confirm" value="cancelDelete">CANCEL</button>
 	</form>
-	
+
 	<%--
 	<c:choose>
 	<c:when test = "${confirm = "confirmDelete"}">

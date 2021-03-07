@@ -48,7 +48,8 @@ public class FilmController {
 	public ModelAndView updateFilm(Film film) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("updateFilm");
-//		define model to update film		
+		mv.addObject("film", filmDAO.updateFilm(film));
+		//		define model to update film		
 		return mv;
 	}
 	
@@ -64,7 +65,7 @@ public class FilmController {
 	public ModelAndView deleteFilm(Film film) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("deleteFilm");
-//		define model to delete film		
+		mv.addObject("film", filmDAO.deleteFilm(film));
 		return mv;
 	}
 	
