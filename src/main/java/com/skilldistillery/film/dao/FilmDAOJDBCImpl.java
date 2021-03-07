@@ -83,9 +83,6 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 	private String sqlLanguageOfFilm = "SELECT l.name FROM language l JOIN film f "
 			+ "ON l.id = f.language_id WHERE f.id = ?";
 
-	private String sqlCreateFilm = "INSERT INTO film " + "(title, description, rating, language_id) "
-			+ "VALUES (?, ?, 'G', 1)";
-
 	private String sqlCreateFilmCheckId = "SELECT id FROM film WHERE title=? AND description=?";
 
 	private String sqlDeleteFilm = "DELETE FROM film WHERE id = ?";
@@ -366,6 +363,10 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		Connection conn = null;
 		Film resultFilm = null;
 
+		// TODO update query with other fields
+		String sqlCreateFilm = "INSERT INTO film " + "(title, description, rating, language_id) "
+				+ "VALUES (?, ?, 'G', 1)";
+
 		try {
 			conn = DriverManager.getConnection(URL, "student", "student");
 			conn.setAutoCommit(false); // START TRANSACTION
@@ -384,7 +385,8 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 				PreparedStatement stmtGetId = conn.prepareStatement(sqlCreateFilmCheckId);
 				stmtGetId.setString(1, f.getTitle());
 				stmtGetId.setString(2, f.getDescription());
-
+				// TODO Add other fields
+				
 				ResultSet rs = stmtGetId.executeQuery();
 
 				if (rs.next()) {
