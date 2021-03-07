@@ -451,12 +451,18 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 
 	}
 	
+	
+	// Limited build as proof of concept:
 	public Film updateFilm(int filmId, String title) {
 		Film toPass = findFilmById(filmId);
 		toPass.setTitle(title);
 		Film returnFilm = updateFilm(toPass);
 		return returnFilm;
 	}
+	
+	// Full build:
+	
+	
 	
 	public Film updateFilm(Film f) {
 
@@ -475,30 +481,9 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 			ps.setInt(2, filmId);
 
 			ps.executeUpdate();
-
 			conn.commit(); // COMMIT TRANSACTION
-
-			PreparedStatement ps2 = conn.prepareStatement(sqlFilmById);
-			ps.setInt(1, filmId);
-			ResultSet rs = ps2.executeQuery();
-
-			if (rs.next()) {
-				resultFilm = new Film();
-
-				resultFilm.setId(filmId);
-				resultFilm.setTitle(rs.getString(2));
-				resultFilm.setDescription(rs.getString(3));
-				resultFilm.setLanguageId(rs.getInt(4));
-				resultFilm.setRentalDuration(rs.getInt(5));
-				resultFilm.setRentalRate(rs.getDouble(6));
-				resultFilm.setLength(rs.getInt(7));
-				resultFilm.setReplacementCost(rs.getDouble(8));
-				resultFilm.setRating(rs.getString(9));
-				resultFilm.setSpecialFeatures(rs.getString(10));
-				resultFilm.setReleaseYear(rs.getInt(11));
-
-			}
-
+			
+			resultFilm = f;
 			return resultFilm;
 
 		} catch (

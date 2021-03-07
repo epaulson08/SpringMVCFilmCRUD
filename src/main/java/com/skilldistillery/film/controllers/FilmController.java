@@ -62,6 +62,8 @@ public class FilmController {
 		return mv;
 	}
 	
+	
+	// TODO: back end of FilmDAO.createFilm() currently only takes title and description 
 	@RequestMapping(path = "addFilm.do", method = RequestMethod.POST)
 	public ModelAndView addFilm(Film film) {
 		ModelAndView mv = new ModelAndView();
