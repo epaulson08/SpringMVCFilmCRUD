@@ -461,24 +461,64 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 	}
 	
 	// Full build:
-	
-	
+	public Film updateFilm(int filmId, String newTitle, String newDescription, String newLanguagePlainText, Integer newRentalDuration, double newRentalRate, 
+			Integer newLength, double newReplacementCost, String newRating, String newSpecialFeatures, Integer newReleaseYear) {
+		Film toPass = findFilmById(filmId);
+		toPass.setTitle(newTitle);
+		toPass.setDescription(newDescription);
+		toPass.setLanguagePlainText(newLanguagePlainText);
+		toPass.setRentalDuration(newRentalDuration);
+		toPass.setRentalRate(newRentalRate);
+		toPass.setLength(newLength);
+		toPass.setReplacementCost(newReplacementCost);
+		toPass.setRating(newRating);
+		toPass.setSpecialFeatures(newSpecialFeatures);
+		toPass.setReleaseYear(newReleaseYear);
+		toPass.setLanguageId(1);  // HARDCODING LANGUAGE ID AS 1
+		
+		Film returnFilm = updateFilm(toPass);
+		return returnFilm;		
+	}
+
+//	public Film(int id, String title, String description, Integer languageId, Integer rentalDuration, double rentalRate,
+//			Integer length, double replacementCost, String rating, String specialFeatures, Integer releaseYear) {
+
 	
 	public Film updateFilm(Film f) {
+		String sqlUpdateFilm = "UPDATE film "
+				+ "SET title=?, " // index 1
+				+ "description=?, " // 2
+				+ "languagePlainText=?, " // 3
+				+ "length=?, " // 4
+				+ "rating=?, " // 5
+				+ "releaseYear=?, " // 6
+				+ "rentalDuration=?, " // 7
+				+ "rentalRate=?, " // 8
+				+ "replacementCost=?, " // 9
+				+ "specialFeatures=?, " // 10
+				+ "languageId=1 " // HARDCODING LANGUAGE ID AS 1
+				+ "WHERE id=?"; // 11
 
 		Film resultFilm = null;
 		Connection conn = null;
 		int filmId = f.getId();
-		String newTitle = f.getTitle();
 
 		try {
 			conn = DriverManager.getConnection(URL, "student", "student");
 			conn.setAutoCommit(false); // START TRANSACTION
 
-			// TODO: need SQLs to change fields other than title
-			PreparedStatement ps = conn.prepareStatement(sqlChangeTitle);
-			ps.setString(1, newTitle);
-			ps.setInt(2, filmId);
+			PreparedStatement ps = conn.prepareStatement(sqlUpdateFilm);
+			ps.setString(1, f.getTitle());
+			ps.setString(2, f.getDescription());
+			ps.setString(3, f.getLanguagePlainText());
+			ps.setInt(4, f.getLength());
+			ps.setString(5, f.getRating());
+			ps.setInt(6, f.getReleaseYear());
+			ps.setInt(7, f.getRentalDuration());
+			ps.setDouble(8, f.getRentalRate());
+			ps.setDouble(9, f.getReplacementCost());
+			ps.setString(10, f.getSpecialFeatures());
+			ps.setInt(11, filmId); // this is for the WHERE clause, do not mess it up			
 
 			ps.executeUpdate();
 			conn.commit(); // COMMIT TRANSACTION

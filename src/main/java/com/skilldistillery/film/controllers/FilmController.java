@@ -53,17 +53,22 @@ public class FilmController {
 		mv.addObject("film", filmDAO.findFilmById(filmId));
 		return mv;
 	}
-	
+
 	@RequestMapping(path = "updateConfirmed.do", method = RequestMethod.POST)
-	public ModelAndView updateFilm(@RequestParam int filmId, @RequestParam String title) {
+	public ModelAndView updateFilm(@RequestParam int filmId, @RequestParam String title,
+			@RequestParam String description, @RequestParam String languagePlainText,
+			@RequestParam Integer rentalDuration, @RequestParam double rentalRate, @RequestParam Integer length,
+			@RequestParam double replacementCost, @RequestParam String rating, @RequestParam String specialFeatures,
+			@RequestParam Integer releaseYear) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("updateConfirmed");
-		mv.addObject("film", filmDAO.updateFilm(filmId, title));
+		mv.addObject("film", filmDAO.updateFilm(filmId, title, description, languagePlainText, rentalDuration,
+				rentalRate, length, replacementCost, rating, specialFeatures, releaseYear));
 		return mv;
 	}
-	
-	
-	// TODO: back end of FilmDAO.createFilm() currently only takes title and description 
+
+	// TODO: back end of FilmDAO.createFilm() currently only takes title and
+	// description
 	@RequestMapping(path = "addFilm.do", method = RequestMethod.POST)
 	public ModelAndView addFilm(Film film) {
 		ModelAndView mv = new ModelAndView();
@@ -71,7 +76,7 @@ public class FilmController {
 		mv.addObject("film", filmDAO.createFilm(film));
 		return mv;
 	}
-		
+
 	@RequestMapping(path = "deleteFilm.do", method = RequestMethod.POST)
 	public ModelAndView deleteFilm(@RequestParam("filmId") int filmId) {
 		ModelAndView mv = new ModelAndView();
@@ -79,7 +84,5 @@ public class FilmController {
 		mv.addObject("film", filmDAO.deleteFilm(filmId));
 		return mv;
 	}
-	
-	
-	
+
 }

@@ -29,5 +29,8 @@ public interface FilmDAO {
 	public Film updateFilm(Film f);
 
 	public Film updateFilm(int filmId, String title);
+	
+	public Film updateFilm(int filmId, String newTitle, String newDescription, String newLanguagePlainText, Integer newRentalDuration, double newRentalRate, 
+			Integer newLength, double newReplacementCost, String newRating, String newSpecialFeatures, Integer newReleaseYear);
 
 }
