@@ -70,10 +70,16 @@ public class FilmController {
 	// TODO: back end of FilmDAO.createFilm() currently only takes title and
 	// description
 	@RequestMapping(path = "addFilm.do", method = RequestMethod.POST)
-	public ModelAndView addFilm(Film film) {
+	public ModelAndView createFilm(@RequestParam String title,
+			@RequestParam String description,
+			@RequestParam String rentalDuration, @RequestParam String rentalRate, @RequestParam String length,
+			@RequestParam String replacementCost, @RequestParam String rating, @RequestParam String specialFeatures,
+			@RequestParam String releaseYear) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("addFilm");
-		mv.addObject("film", filmDAO.createFilm(film));
+		// HARDCODED LANGUAGEPLAINTEXT
+		mv.addObject("film", filmDAO.createFilm(title, description, "English", rentalDuration,
+				rentalRate, length, replacementCost, rating, specialFeatures, releaseYear));
 		return mv;
 	}
 

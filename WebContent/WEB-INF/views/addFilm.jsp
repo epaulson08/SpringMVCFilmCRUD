@@ -16,8 +16,6 @@
 			<h4>Result:</h4>
 
 			<ul>
-				<br />
-
 				<li>Film ID: ${film.id}</li>
 				<li>Film Title: ${film.title}</li>
 				<li>Film Description: ${film.description}</li>
@@ -41,7 +39,7 @@
 			</ul>
 			<form action="updateFilm.do">
 				<button>Edit This Film</button>
-				<input type="hidden" name="filmId" value="${film.id}" >
+				<input type="hidden" name="filmId" value="${film.id}">
 			</form>
 
 			<form action="deleteFilm.do">
@@ -55,7 +53,7 @@
 
 		</c:when>
 		<c:otherwise>
-			<h3>No film found, please try again!</h3>
+			<h3>Add film failed, please try again!</h3>
 		</c:otherwise>
 
 	</c:choose>

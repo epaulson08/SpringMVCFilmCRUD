@@ -33,8 +33,16 @@ public interface FilmDAO {
 	public Film updateFilm(int filmId, String newTitle, String newDescription, String newLanguagePlainText, Integer newRentalDuration, double newRentalRate, 
 			Integer newLength, double newReplacementCost, String newRating, String newSpecialFeatures, Integer newReleaseYear);
 
-	public Film updateFilm(int filmId, String newTitle, String newDescription, String newLanguagePlainText, String newRentalDuration, String newRentalRate, 
+	public Film cleanUserFilm(int filmId, String newTitle, String newDescription, String newLanguagePlainText, String newRentalDuration, String newRentalRate, 
 			String newLength, String newReplacementCost, String newRating, String newSpecialFeatures, String newReleaseYear);
 	
+	public Film updateFilm(int filmId, String newTitle, String newDescription, String newLanguagePlainText,
+			String newRentalDuration, String newRentalRate, String newLength, String newReplacementCost,
+			String newRating, String newSpecialFeatures, String newReleaseYear);
+	
+
+	public Film createFilm(String newTitle, String newDescription, String newLanguagePlainText,
+			String newRentalDuration, String newRentalRate, String newLength, String newReplacementCost,
+			String newRating, String newSpecialFeatures, String newReleaseYear);
 
 }

@@ -49,6 +49,7 @@
 			</li>
 			 --%>
 		</ul>
+		<br />
 		<input type="submit" value="Submit Updates">
 	</form>
 </body>
