@@ -52,7 +52,7 @@ public class FilmController {
 		return mv;
 	}
 	
-	@RequestMapping(path = "addFilm.do")
+	@RequestMapping(path = "addFilm.do", method = RequestMethod.POST) // remove if push
 	public ModelAndView addFilm(Film film) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("addFilm");
