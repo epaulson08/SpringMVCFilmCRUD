@@ -28,22 +28,6 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 	private String URL = "jdbc:mysql://localhost:3306/sdvid";
 
 ////////
-// Architecture for this class
-// General procedure:
-	// Create connection --> create String for SQL query -->
-	// create PreparedStatement --> create ResultSet
-	// Compute with ResultSet
-	// Close resources (ResultSet, PreparedStatement, and Connection)
-	//
-// Implementation:
-	// Connection con = DriverManager.getConnection(URL, [user_id],
-	// [user_password]);
-	// PreparedStatement ps = con.prepareStatement(sql);
-	// ResultSet rs = ps.executeQuery();
-	//
-// Conventions: String for SQL query: sql[QueryName]
-
-////////
 // SQL queries for use in methods
 	private String sqlActorsByFilmId = "SELECT a.* FROM actor a JOIN film_actor fa "
 			+ "ON a.id = fa.actor_id JOIN film f ON f.id = fa.film_id WHERE f.id = ?" + " ORDER BY a.last_name";
@@ -65,8 +49,6 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 			+ "release_year " // 11
 			+ "FROM film WHERE id = ?"; // bind var is film.id
 
-	private String sqlActorById = "SELECT id, first_name, last_name FROM actor WHERE id = ?";
-
 	private String sqlFilmsByKeyword = "SELECT id, " // query index 1
 			+ "title, " // 2
 			+ "description, " // 3
@@ -83,11 +65,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 	private String sqlLanguageOfFilm = "SELECT l.name FROM language l JOIN film f "
 			+ "ON l.id = f.language_id WHERE f.id = ?";
 
-	private String sqlCreateFilmCheckId = "SELECT id FROM film WHERE title=? AND description=?";
-
 	private String sqlDeleteFilm = "DELETE FROM film WHERE id = ?";
-
-	private String sqlChangeTitle = "UPDATE film SET title=? WHERE id=?";
 
 ////////
 
@@ -139,7 +117,7 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 	@Override
 	public Actor findActorById(int actorId) {
 		Actor actor = null;
-		String URL = "jdbc:mysql://localhost:3306/sdvid";
+		String sqlActorById = "SELECT id, first_name, last_name FROM actor WHERE id = ?";
 
 		try (Connection con = DriverManager.getConnection(URL, "student", "student")) {
 			PreparedStatement ps = con.prepareStatement(sqlActorById);
@@ -390,8 +368,9 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 			stmtCreateFilm.executeUpdate(); // created film but we still don't know what id the database assigned
 
 			String sqlGetFilmId = "SELECT id FROM film WHERE " + "title=? AND description=? AND rental_duration=? AND "
-					+ "rental_rate=? AND length=? AND replacement_cost=? AND " + "rating=? AND special_features=? AND release_year=? AND "
-					+ "language_id=1"; // hardcoded language id
+					+ "rental_rate=? AND length=? AND replacement_cost=? AND "
+					+ "rating=? AND special_features=? AND release_year=? AND " + "language_id=1"; // hardcoded language
+																									// id
 			PreparedStatement stmtGetID = conn.prepareStatement(sqlGetFilmId);
 			stmtGetID.setString(1, f.getTitle());
 			stmtGetID.setString(2, f.getDescription());
@@ -402,7 +381,8 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 			stmtGetID.setString(7, f.getRating());
 			stmtGetID.setString(8, f.getSpecialFeatures());
 			stmtGetID.setInt(9, f.getReleaseYear());
-			ResultSet rs2 = stmtGetID.executeQuery(); // created film but we still don't know what id the database assigned
+			ResultSet rs2 = stmtGetID.executeQuery(); // created film but we still don't know what id the database
+														// assigned
 
 			int filmId = 0;
 			if (rs2.next()) {
@@ -466,15 +446,6 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 
 	}
 
-	// Limited build as proof of concept:
-	public Film updateFilm(int filmId, String title) {
-		Film toPass = findFilmById(filmId);
-		toPass.setTitle(title);
-		Film returnFilm = updateFilm(toPass);
-		return returnFilm;
-	}
-
-	// Full build:
 	public Film updateFilm(int filmId, String newTitle, String newDescription, String newLanguagePlainText,
 			Integer newRentalDuration, double newRentalRate, Integer newLength, double newReplacementCost,
 			String newRating, String newSpecialFeatures, Integer newReleaseYear) {
@@ -494,8 +465,6 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		Film returnFilm = updateFilm(toPass);
 		return returnFilm;
 	}
-
-	// Full build:
 
 	public Film cleanUserFilm(String newTitle, String newDescription, String newLanguagePlainText,
 			String newRentalDuration, String newRentalRate, String newLength, String newReplacementCost,
@@ -532,46 +501,62 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		}
 
 		// RentalDuration
-		// TODO: deal with user passing in non-numeric info
-		if (newRentalDuration != "") {
-			toPass.setRentalDuration(Integer.parseInt(newRentalDuration));
-		} else {
-			if (toPass.getRentalDuration() == null) {
-				toPass.setRentalDuration(0);
+		try {
+			if (newRentalDuration != "") {
+				toPass.setRentalDuration(Integer.parseInt(newRentalDuration));
+			} else {
+				if (toPass.getRentalDuration() == null) {
+					toPass.setRentalDuration(0);
+				}
 			}
+		} catch (NumberFormatException nfe) {
+			toPass = null;
+			return toPass;
 		}
 
 		// RentalRate
-		// TODO: deal with user passing in non-numeric info
-		if (newRentalRate != "") {
-			toPass.setRentalRate(Double.parseDouble(newRentalRate));
-		} else {
-			// primitive double cannot be null so do not need this logic
-//			if (toPass.getRentalRate() == null) {
-//				toPass.setRentalDuration(0);
+		try {
+			if (newRentalRate != "") {
+				toPass.setRentalRate(Double.parseDouble(newRentalRate));
+			} else {
+				// Empty else block:
+				// primitive double cannot be null so do not need to check
+			}
+		} catch (NumberFormatException nfe) {
+			toPass = null;
+			return toPass;
 		}
 
 		// Length
-		// TODO: deal with user passing in non-numeric info
-		if (newLength != "") {
-			toPass.setLength(Integer.parseInt(newLength));
-		} else {
-			if (toPass.getLength() == null) {
-				toPass.setLength(0);
+		try {
+			if (newLength != "") {
+				toPass.setLength(Integer.parseInt(newLength));
+			} else {
+				if (toPass.getLength() == null) {
+					toPass.setLength(0);
+				}
 			}
+		} catch (NumberFormatException nfe) {
+			toPass = null;
+			return toPass;
 		}
 
 		// ReplacementCost
-		// TODO: deal with user passing in non-numeric info
-		if (newReplacementCost != "") {
-			toPass.setReplacementCost(Double.parseDouble(newReplacementCost));
-		} else {
-			// primitive double cannot be null so do not need this logic
-//					if (toPass.getRentalRate() == null) {
-//						toPass.setRentalDuration(0);
+		try {
+			if (newReplacementCost != "") {
+				toPass.setReplacementCost(Double.parseDouble(newReplacementCost));
+			} else {
+				// Empty else block:
+				// primitive double cannot be null so do not need to check
+			}
+		} catch (NumberFormatException nfe) {
+			toPass = null;
+			return toPass;
 		}
 
 		// Rating
+		// TODO: this is really an enumeration not a string.
+		// Implement as checkboxes, or check for valid input here.
 		if (newRating != "") {
 			toPass.setRating(newRating);
 		} else {
@@ -580,8 +565,9 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 			}
 		}
 
-		// TODO: make sure SpecialFeatures is a valid input
 		// SpecialFeatures
+		// The logic to make sure SpecialFeatures matches the enumerations
+		// is handled by taking input via checkboxes.
 		if (newSpecialFeatures != "") {
 			toPass.setSpecialFeatures(newSpecialFeatures);
 		} else {
@@ -591,13 +577,17 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		}
 
 		// ReleaseYear
-		// TODO: deal with user passing in non-numeric info
-		if (newReleaseYear != "") {
-			toPass.setReleaseYear(Integer.parseInt(newReleaseYear));
-		} else {
-			if (toPass.getReleaseYear() == null) {
-				toPass.setReleaseYear(0);
+		try {
+			if (newReleaseYear != "") {
+				toPass.setReleaseYear(Integer.parseInt(newReleaseYear));
+			} else {
+				if (toPass.getReleaseYear() == null) {
+					toPass.setReleaseYear(0);
+				}
 			}
+		} catch (NumberFormatException nfe) {
+			toPass = null;
+			return toPass;
 		}
 
 		toPass.setLanguageId(1); // HARDCODING LANGUAGE ID AS 1
@@ -605,6 +595,9 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		return toPass;
 	}
 
+	// TODO: it is most likely possible to refactor this to avoid the overloaded
+	// cleanUserFilm()
+	// that differs only in absence of filmId.
 	public Film cleanUserFilm(int filmId, String newTitle, String newDescription, String newLanguagePlainText,
 			String newRentalDuration, String newRentalRate, String newLength, String newReplacementCost,
 			String newRating, String newSpecialFeatures, String newReleaseYear) {
@@ -638,45 +631,60 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 				toPass.setLanguagePlainText("");
 			}
 		}
-
 		// RentalDuration
-		// TODO: deal with user passing in non-numeric info
-		if (newRentalDuration != "") {
-			toPass.setRentalDuration(Integer.parseInt(newRentalDuration));
-		} else {
-			if (toPass.getRentalDuration() == null) {
-				toPass.setRentalDuration(0);
+
+		try {
+			if (newRentalDuration != "") {
+				toPass.setRentalDuration(Integer.parseInt(newRentalDuration));
+			} else {
+				if (toPass.getRentalDuration() == null) {
+					toPass.setRentalDuration(0);
+				}
 			}
+		} catch (NumberFormatException nfe) {
+			toPass = null;
+			return toPass;
 		}
 
 		// RentalRate
-		// TODO: deal with user passing in non-numeric info
-		if (newRentalRate != "") {
-			toPass.setRentalRate(Double.parseDouble(newRentalRate));
-		} else {
-			// primitive double cannot be null so do not need this logic
-//			if (toPass.getRentalRate() == null) {
-//				toPass.setRentalDuration(0);
+		try {
+			if (newRentalRate != "") {
+				toPass.setRentalRate(Double.parseDouble(newRentalRate));
+			} else {
+				// This else intentionally left blank.
+				// primitive double cannot be null so do not need to check
+			}
+		} catch (NumberFormatException nfe) {
+			toPass = null;
+			return toPass;
 		}
 
 		// Length
-		// TODO: deal with user passing in non-numeric info
-		if (newLength != "") {
-			toPass.setLength(Integer.parseInt(newLength));
-		} else {
-			if (toPass.getLength() == null) {
-				toPass.setLength(0);
+		try {
+			if (newLength != "") {
+				toPass.setLength(Integer.parseInt(newLength));
+			} else {
+				if (toPass.getLength() == null) {
+					toPass.setLength(0);
+				}
 			}
+
+		} catch (NumberFormatException nfe) {
+			toPass = null;
+			return toPass;
 		}
 
 		// ReplacementCost
-		// TODO: deal with user passing in non-numeric info
-		if (newReplacementCost != "") {
-			toPass.setReplacementCost(Double.parseDouble(newReplacementCost));
-		} else {
-			// primitive double cannot be null so do not need this logic
-//					if (toPass.getRentalRate() == null) {
-//						toPass.setRentalDuration(0);
+		try {
+			if (newReplacementCost != "") {
+				toPass.setReplacementCost(Double.parseDouble(newReplacementCost));
+			} else {
+				// Empty else block
+				// primitive double cannot be null so do not to check
+			}
+		} catch (NumberFormatException nfe) {
+			toPass = null;
+			return toPass;
 		}
 
 		// Rating
@@ -687,8 +695,9 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 				toPass.setRating("G");
 			}
 		}
-		
-//		TODO: CHECK THAT SPECIAL FEATURES IS VALID INPUT
+
+		// Logic to make sure SpecialFeatures is valid enumeration
+		// is handled on front end by check box selection
 		// SpecialFeatures
 		if (newSpecialFeatures != "") {
 			toPass.setSpecialFeatures(newSpecialFeatures);
@@ -699,13 +708,19 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		}
 
 		// ReleaseYear
-		// TODO: deal with user passing in non-numeric info
-		if (newReleaseYear != "") {
-			toPass.setReleaseYear(Integer.parseInt(newReleaseYear));
-		} else {
-			if (toPass.getReleaseYear() == null) {
-				toPass.setReleaseYear(0);
+		try {
+			if (newReleaseYear != "") {
+				toPass.setReleaseYear(Integer.parseInt(newReleaseYear));
+			} else {
+				if (toPass.getReleaseYear() == null) {
+					toPass.setReleaseYear(0);
+				}
 			}
+		} catch (
+
+		NumberFormatException nfe) {
+			toPass = null;
+			return toPass;
 		}
 
 		toPass.setLanguageId(1); // HARDCODING LANGUAGE ID AS 1
@@ -713,8 +728,6 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 		Film sanitizedFilm = updateFilm(toPass);
 		return sanitizedFilm;
 	}
-//	public Film(int id, String title, String description, Integer languageId, Integer rentalDuration, double rentalRate,
-//			Integer length, double replacementCost, String rating, String specialFeatures, Integer releaseYear) {
 
 	@Override
 	public Film updateFilm(int filmId, String newTitle, String newDescription, String newLanguagePlainText,
@@ -730,69 +743,73 @@ public class FilmDAOJDBCImpl implements FilmDAO {
 	public Film createFilm(String newTitle, String newDescription, String newLanguagePlainText,
 			String newRentalDuration, String newRentalRate, String newLength, String newReplacementCost,
 			String newRating, String newSpecialFeatures, String newReleaseYear) {
-		Film sanitizedFilm = cleanUserFilm(newTitle, newDescription, "English", newRentalDuration,
-				newRentalRate, newLength, newReplacementCost, newRating, newSpecialFeatures, newReleaseYear);
+		Film sanitizedFilm = cleanUserFilm(newTitle, newDescription, "English", newRentalDuration, newRentalRate,
+				newLength, newReplacementCost, newRating, newSpecialFeatures, newReleaseYear);
 		Film returnFilm = createFilm(sanitizedFilm);
 		return returnFilm;
 	}
 
 	@Override
 	public Film updateFilm(Film f) {
-		String sqlUpdateFilm = "UPDATE film " + "SET title=?, " // index 1
-				+ "description=?, " // 2
-				+ "length=?, " // 3
-				+ "rating=?, " // 4
-				+ "release_year=?, " // 5
-				+ "rental_duration=?, " // 6
-				+ "rental_rate=?, " // 7
-				+ "replacement_cost=?, " // 8
-				+ "special_features=?, " // 9
-				+ "language_id=1 " // HARDCODING LANGUAGE ID AS 1
-				+ "WHERE id=?"; // 10
+		if (f == null) {
+			return f;
+		} else {
+			String sqlUpdateFilm = "UPDATE film " + "SET title=?, " // index 1
+					+ "description=?, " // 2
+					+ "length=?, " // 3
+					+ "rating=?, " // 4
+					+ "release_year=?, " // 5
+					+ "rental_duration=?, " // 6
+					+ "rental_rate=?, " // 7
+					+ "replacement_cost=?, " // 8
+					+ "special_features=?, " // 9
+					+ "language_id=1 " // HARDCODING LANGUAGE ID AS 1
+					+ "WHERE id=?"; // 10
 
-		Film resultFilm = null;
-		Connection conn = null;
-		int filmId = f.getId();
+			Film resultFilm = null;
+			Connection conn = null;
+			int filmId = f.getId();
 
-		try {
-			conn = DriverManager.getConnection(URL, "student", "student");
-			conn.setAutoCommit(false); // START TRANSACTION
+			try {
+				conn = DriverManager.getConnection(URL, "student", "student");
+				conn.setAutoCommit(false); // START TRANSACTION
 
-			PreparedStatement ps = conn.prepareStatement(sqlUpdateFilm);
-			ps.setString(1, f.getTitle());
-			ps.setString(2, f.getDescription());
+				PreparedStatement ps = conn.prepareStatement(sqlUpdateFilm);
+				ps.setString(1, f.getTitle());
+				ps.setString(2, f.getDescription());
 
-			ps.setInt(3, f.getLength());
-			ps.setString(4, f.getRating());
-			ps.setInt(5, f.getReleaseYear());
-			ps.setInt(6, f.getRentalDuration());
-			ps.setDouble(7, f.getRentalRate());
-			ps.setDouble(8, f.getReplacementCost());
-			ps.setString(9, f.getSpecialFeatures());
-			ps.setInt(10, filmId); // this is for the WHERE clause, do not mess it up
+				ps.setInt(3, f.getLength());
+				ps.setString(4, f.getRating());
+				ps.setInt(5, f.getReleaseYear());
+				ps.setInt(6, f.getRentalDuration());
+				ps.setDouble(7, f.getRentalRate());
+				ps.setDouble(8, f.getReplacementCost());
+				ps.setString(9, f.getSpecialFeatures());
+				ps.setInt(10, filmId); // this is for the WHERE clause, do not mess it up
 
-			ps.executeUpdate();
-			conn.commit(); // COMMIT TRANSACTION
+				ps.executeUpdate();
+				conn.commit(); // COMMIT TRANSACTION
 
-			resultFilm = f;
-			return resultFilm;
+				resultFilm = f;
+				return resultFilm;
 
-		} catch (
+			} catch (
 
-		SQLException sqle) {
-			sqle.printStackTrace();
-			if (conn != null) {
-				try {
-					conn.rollback();
-				} // ROLLBACK TRANSACTION ON ERROR
-				catch (SQLException sqle2) {
-					System.err.println("Error trying to rollback");
+			SQLException sqle) {
+				sqle.printStackTrace();
+				if (conn != null) {
+					try {
+						conn.rollback();
+					} // ROLLBACK TRANSACTION ON ERROR
+					catch (SQLException sqle2) {
+						System.err.println("Error trying to rollback");
+					}
 				}
+				// if insert fails: return null
+				resultFilm = null;
+				return resultFilm;
 			}
-			// if insert fails: return null
-			resultFilm = null;
-			return resultFilm;
-		}
 
+		}
 	}
 }
