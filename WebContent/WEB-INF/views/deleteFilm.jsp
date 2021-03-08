@@ -8,13 +8,22 @@
 <title>Delete Film</title>
 </head>
 <body>
-	DELETE FILM PAGE
-	<br /> You have deleted ${film.title}.
-
-	<form action="home.do">
-	<button>Go Home</button>
-	</form>
-<%--
+	<c:choose>
+		<c:when test="${not empty film}">
+			<h3>You have deleted ${film.title}.</h3>
+			<form action="home.do">
+				<button>Go Home</button>
+			</form>
+		</c:when>
+		<c:otherwise>
+	A problem occurred with your delete request.
+	<br />
+			<form action="home.do">
+				<button>Go Home</button>
+			</form>
+		</c:otherwise>
+	</c:choose>
+	<%--
 		<button name="confirm" value="confirmDelete">Yes,
 			DELETE</button>
 	<!--  	<input type="hidden" name="film" value="${film}"> -->

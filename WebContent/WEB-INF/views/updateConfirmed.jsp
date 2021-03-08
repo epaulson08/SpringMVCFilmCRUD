@@ -6,12 +6,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Update Confirmed</title>
+<title>Update Complete</title>
 </head>
 <body>
 	<c:choose>
 		<c:when test="${film != null}">
 		<h3>Update Complete!</h3>
+			<ul>
 			<li>Film ID: ${film.id}</li>
 			<li>Film Title: ${film.title}</li>
 			<li>Film Description: ${film.description}</li>
@@ -24,7 +25,8 @@
 			<li>Film Release Year: ${film.releaseYear}</li>
 			<%-- TODO: make this work --%>
 			<%-- <li>Film Language: ${film.languagePlainText}</li> --%>
-
+			</ul>
+			<form action="home.do"><button>Return Home</button></form>
 		</c:when>
 		<c:otherwise>
 		There was an error updating your file.

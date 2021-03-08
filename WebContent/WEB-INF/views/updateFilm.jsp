@@ -4,15 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Update Film</title>
 </head>
 <body>
-	UPDATE FILM PAGE Please type in your updates:
+	<h3>Please enter your updates: </h3>
 	<form action="updateConfirmed.do" method="POST">
 		<input type="hidden" name="filmId" value="${film.id}">
 		<%-- TODO: update this languagePlainText--%>
 		<input type="hidden" name="languagePlainText" value="${film.languagePlainText}">
-		
 		
 		<ul>
 			<li>Film Title: ${film.title} &nbsp &nbsp <input type="text"
@@ -42,8 +41,7 @@
 			<li>Film Release Year: ${film.releaseYear} &nbsp &nbsp <input type="text"
 				name="releaseYear">
 			</li>
-			<%-- TODO: make this work --%>
-			<%-- 
+			<%-- TODO: make this work
 			<li>Film Language: ${film.languagePlainText} &nbsp &nbsp <input type="text"
 				name="languagePlainText">
 			</li>

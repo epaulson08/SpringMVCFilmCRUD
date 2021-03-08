@@ -7,11 +7,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>MVC Film Site</title>
+<title>Erick's Awesome Film Site</title>
 </head>
 <body>
 	<h1 style="color: pink; background-color: blue">Welcome To Erick's
-		Film Site</h1>
+		Awesome Film Site</h1>
 	<br>
 	<h3>You can: </h3>
 	

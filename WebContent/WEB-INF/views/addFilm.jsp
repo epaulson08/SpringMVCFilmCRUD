@@ -13,8 +13,6 @@
 
 			<h3>Here is the information you added:</h3>
 			<br />
-			<h4>Result:</h4>
-
 			<ul>
 				<li>Film ID: ${film.id}</li>
 				<li>Film Title: ${film.title}</li>
@@ -37,18 +35,18 @@
 			${actor.firstName} ${actor.lastName} &nbsp &nbsp &nbsp 
 			</c:forEach>
 			</ul>
-			<form action="updateFilm.do">
+			<form action="updateFilm.do" method="POST">
 				<button>Edit This Film</button>
 				<input type="hidden" name="filmId" value="${film.id}">
 			</form>
 
-			<form action="deleteFilm.do">
+			<form action="deleteFilm.do" method="POST">
 				<button>Delete This Film</button>
 				<input type="hidden" name="film" value="${film}">
 			</form>
 
 			<form action="home.do">
-				<button>Home</button>
+				<button>Return Home</button>
 			</form>
 
 		</c:when>
