@@ -32,4 +32,4 @@ Delete film: Will prompt for current film ID and will delete all film informatio
 ### Lessons learned
  - Erik's Lessons: are to learn to trust my partner and not to micro manage the project. Having only just learned about Spring MVC this project was challenging to communicate about as trying to explain something I hardly understand makes articulating difficult at best.
 
-Eric's Lessons:
+- Eric's Lessons: This project was a large step up in complexity of the file strucutre and length of the codebase (800+ lines of code in the DAO implementation for example). Reading stack traces became important to locate bugs.
